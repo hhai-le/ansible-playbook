@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: local
   vars_files: 
     - vars.yaml
   tasks:

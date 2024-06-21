@@ -4,6 +4,7 @@
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_username }}"
     password: "{{ vcenter_password }}"
+    validate_certs: false
     folder: "{{ folder_name }}"
     name: "{{ vm_name }}"
     state: powered-off

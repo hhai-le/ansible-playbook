@@ -1,3 +1,4 @@
 inventory_linux.yaml
 inventory_vmware.yaml
 vars_vmware.yaml
+.vscode

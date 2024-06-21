@@ -4,6 +4,7 @@
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_username }}"
     password: "{{ vcenter_password }}"
+    validate_certs: false
     name: "{{ vm_name }}"
     delete_from_inventory: true
     state: absent
