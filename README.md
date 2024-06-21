@@ -32,9 +32,9 @@ guest_domain: "localhost.localdomain"
 ansible-playbook -i inventory_for_vmware.yaml -e "@vars_for_vmware.yaml" -e "vm_name=<name of VM machine>" vmware-delete/main.yaml
 ```
 ##### example: vm_name=ubuntu22VM-test
-![vmware delete play](file:///C:/Project/ansible/playbook/images/vmware-delete-play.png)
+![vmware delete play](images/vmware-delete-play.png)
 
-![vmware delete](file:///C:/Project/ansible/playbook/images/vmware-delete.png)
+![vmware delete](images/vmware-delete.png)
 
 #### Deploy machine for template:
 
@@ -43,13 +43,13 @@ ansible-playbook -i inventory_for_vmware.yaml -e "@vars_for_vmware.yaml" -e "tem
 ```
 ##### example: template_name=ubuntu22-template
 
-![vmware deploy temp](file:///C:/Project/ansible/playbook/images/vmware-deploy-temp.png)
+![vmware deploy temp](images/vmware-deploy-temp.png)
 
 ##### example: vm_name=ubuntu22-testdeployed
-![vmware deploy task](file:///C:/Project/ansible/playbook/images/vmware-deploy-task.png)
+![vmware deploy task](images/vmware-deploy-task.png)
 
 ##### example: vm_hostname=deployedbyansible
-![vmware deploy hostname](file:///C:/Project/ansible/playbook/images/vmware-deploy-hostname.png)
+![vmware deploy hostname](images/vmware-deploy-hostname.png)
 
 #### patching
 ```bash
