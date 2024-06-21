@@ -73,6 +73,7 @@
     var: consider_packages
 
 - name: mark hold for consider_packages
+  become: true
   dpkg_selections:
     name: "{{ item }}"
     selection: hold
