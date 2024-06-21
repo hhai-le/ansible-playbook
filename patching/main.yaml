@@ -3,8 +3,5 @@
   vars_files: 
     - packages.yaml
   tasks:
-  - name: snapshot
-    include_tasks: ../vmware-snapshot/main.yaml
   - name: patching
     include_tasks: patching_hold.yaml
-    
