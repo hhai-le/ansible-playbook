@@ -1,2 +1,3 @@
 ---
 vm_name: "ubuntu22VM-test"
+vm_hostname: "ubuntu22VM-test"
