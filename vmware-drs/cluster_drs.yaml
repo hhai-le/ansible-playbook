@@ -1,0 +1,16 @@
+---
+- hosts: local
+  tasks:
+  - name: Add VMs in an existing DRS VM group
+    delegate_to: localhost
+    community.vmware.vmware_drs_group_manager:
+      hostname: "{{ vcenter_hostname }}"
+      password: "{{ vcenter_password }}"
+      username: "{{ vcenter_username }}"
+      cluster: "{{ cluster_name }}"
+      datacenter: "{{ datacenter_name }}"
+      validate_certs: false
+      group_name: VNL-AutoLAB
+      vms:
+        - "{{ vm_name }}"
+      state: present

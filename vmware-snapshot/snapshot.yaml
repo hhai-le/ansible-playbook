@@ -1,0 +1,26 @@
+---
+- name: check current machine
+  community.vmware.vmware_guest_info:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    datacenter: "{{ datacenter_name }}"
+    name: "{{ vm_name }}"
+    validate_certs: false
+  delegate_to: localhost
+  register: info
+
+- name: Create a Snapshot
+  community.vmware.vmware_guest_snapshot:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    datacenter: "{{ datacenter_name }}"
+    folder: "{{ info['instance']['hw_folder'] }}"
+    name: "{{ vm_name }}"
+    validate_certs: false
+    quiesce: true
+    state: present
+    snapshot_name: "{{ansible_date_time.date}} - {{ansible_date_time.time}}"
+    description: "Snap before upgrade"
+  delegate_to: localhost

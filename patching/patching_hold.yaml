@@ -1,0 +1,107 @@
+---
+# tasks file for ansible-patching
+
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+  register: tempfile_1
+  delegate_to: localhost
+
+- name: get running service
+  shell: systemctl list-units --type=service --state=running
+  register: running_services
+
+- name: copy the output to a local file
+  copy:
+    content: "{{ running_services.stdout }}"
+    dest: "{{ tempfile_1.path }}/servicesbefore.txt"
+  delegate_to: localhost
+
+- name: get update
+  apt:
+    update_cache: true
+
+- name: get upgradable packages
+  shell: apt-get -s upgrade | grep ^Inst | awk '{print $2}'
+  register: upgrade_packages
+
+- name: create restrict packages list file
+  file:
+    path: "{{ tempfile_1.path }}/restrict_packages.txt"
+    state: touch
+  delegate_to: localhost
+
+- name: create restrict packages list
+  lineinfile:
+    path: "{{ tempfile_1.path }}/restrict_packages.txt"
+    line: "{{ item }}"
+  loop:
+    "{{ packages }}"
+  delegate_to: localhost
+
+- name: copy the output to a local file
+  copy:
+    content: "{{ upgrade_packages.stdout }}"
+    dest: "{{ tempfile_1.path }}/upgrade_packages.txt"
+  delegate_to: localhost
+
+- debug:
+    var: upgrade_packages
+
+- name: create script to compare packages
+  blockinfile:
+    path: "{{ tempfile_1.path }}/check.sh"
+    create: true
+    block: |
+      #!/bin/bash
+      for i in $(cat $1); do grep -w "^$i$" $2; done
+  delegate_to: localhost
+
+- name: compare packages
+  shell: /bin/bash {{ tempfile_1.path }}/check.sh {{ tempfile_1.path }}/restrict_packages.txt {{ tempfile_1.path }}/upgrade_packages.txt
+  register: consider_packages
+  ignore_errors: true
+  delegate_to: localhost
+
+- debug:
+    var: consider_packages
+
+- name: mark hold for consider_packages
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    "{{ consider_packages.stdout_lines }}"
+
+- name: apt full-upgrade
+  apt:
+    upgrade: full
+    force_apt_get: yes
+    
+- name: check if reboot required
+  stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: reboot if required ( wait for 10 mins)
+  reboot:
+    reboot_timeout: 600
+  when: reboot_required_file.stat.exists == true
+
+- name: get running service
+  shell: systemctl list-units --type=service --state=running
+  register: running_services
+
+- name: copy the output to a local file
+  copy:
+    content: "{{ running_services.stdout }}"
+    dest: "{{ tempfile_1.path }}/servicesafter.txt"
+  delegate_to: localhost
+
+- name: check service before and after rebooting
+  shell: "diff {{ tempfile_1.path }}/servicesbefore.txt {{ tempfile_1.path }}/servicesafter.txt"
+  register: service_diff
+  delegate_to: localhost
+
+- debug:
+    var: service_diff

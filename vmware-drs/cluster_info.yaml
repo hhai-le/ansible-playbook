@@ -1,0 +1,16 @@
+---
+- hosts: local
+  tasks:
+  - name: Gather cluster info from given datacenter
+    community.vmware.vmware_drs_group_info:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      cluster_name: "{{ cluster_name }}"
+      validate_certs: false
+    delegate_to: localhost
+    register: cluster_info
+  
+  - name: check cluster_info
+    debug:
+      var: cluster_info

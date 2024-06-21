@@ -1,0 +1,9 @@
+---
+- hosts: all
+  vars_files: 
+    - packages.yaml
+  tasks:
+  - name: snapshot
+    include_tasks: snapshot.yaml
+  - name: patching
+    include_tasks: patching_hold.yaml

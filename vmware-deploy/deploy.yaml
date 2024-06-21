@@ -1,0 +1,30 @@
+---
+- name:  Clone a virtual machine from Linux template and customize
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    datacenter: "{{ datacenter_name }}"
+    state: present
+    folder: "{{ folder_name }}"
+    template: "{{ template_name }}"
+    name: "{{ vm_name }}"
+    cluster: "{{ cluster_name }}"
+    validate_certs: false
+    networks:
+      - name: "{{ networks_name }}"
+        ip: "{{ networks_ip }}"
+        netmask: 255.255.255.0
+    wait_for_ip_address: true
+    customization:
+      hostname: "{{ vm_hostname }}"
+      domain: "{{ guest_domain }}"
+      dns_servers:
+        - "{{ dns1 }}"
+        - "{{ dns2 }}"
+      dns_suffix:
+        - j.local
+      script_text: |
+        #!/bin/bash
+        touch /tmp/touch-from-playbook
+  delegate_to: localhost

@@ -1,0 +1,9 @@
+---
+- hosts: all
+  vars_files: 
+    - vars.yaml
+  tasks:
+  - name: poweroff
+    include_tasks: poweroff.yaml
+  - name: delete
+    include_tasks: delete.yaml
