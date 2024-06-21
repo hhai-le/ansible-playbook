@@ -7,6 +7,9 @@
   register: tempfile_1
   delegate_to: localhost
 
+- debug:
+    var: tempfile_1.path
+
 - name: get running service
   shell: systemctl list-units --type=service --state=running
   register: running_services
