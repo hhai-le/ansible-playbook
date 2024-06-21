@@ -1,0 +1,17 @@
+---
+local:
+  hosts:
+    localhost:
+patching:
+  hosts:
+    <IP of hostname>:
+linux:
+  children:
+    local:
+    patching:
+  vars:
+    ansible_become_password: password
+    ansible_password": password
+    ansible_ssh_extra_args: -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+    ansible_ssh_retries: 100
+    ansible_user: linuxadmin
