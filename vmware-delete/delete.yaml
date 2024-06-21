@@ -1,5 +1,5 @@
 ---
-- name: Set the state of a virtual machine to poweroff
+- name: delete vm from inventory
   community.vmware.vmware_guest:
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_username }}"
