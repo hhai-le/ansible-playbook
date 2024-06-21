@@ -12,7 +12,7 @@
 
 - name: get running service
   become: true
-  shell: systemctl list-units --type=service --state=running
+  shell: systemctl list-units --type=service --state=running | grep running | awk '{print $1}' | sort | uniq
   register: running_services
 
 - name: copy the output to a local file
@@ -100,7 +100,7 @@
 
 - name: get running service
   become: true
-  shell: systemctl list-units --type=service --state=running
+  shell: systemctl list-units --type=service --state=running | grep running | awk '{print $1}' | sort | uniq
   register: running_services
 
 - name: copy the output to a local file
