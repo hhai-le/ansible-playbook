@@ -110,7 +110,7 @@
   delegate_to: localhost
 
 - name: check service before and after rebooting
-  shell: "diff {{ tempfile_1.path }}/servicesbefore.txt {{ tempfile_1.path }}/servicesafter.txt"
+  shell: "sdiff {{ tempfile_1.path }}/servicesbefore.txt {{ tempfile_1.path }}/servicesafter.txt"
   register: service_diff
   delegate_to: localhost
 
