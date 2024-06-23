@@ -28,10 +28,13 @@ guest_domain: "localhost.localdomain"
 ```
 
 #### Deleting a machine from inventory
+
 ```bash
 ansible-playbook -i inventory_for_vmware.yaml -e "@vars_for_vmware.yaml" -e "vm_name=<name of VM machine>" vmware-delete/main.yaml
 ```
+
 ##### example: vm_name=ubuntu22VM-test
+
 ![vmware delete play](images/vmware-delete-play.png)
 
 ![vmware delete](images/vmware-delete.png)
@@ -41,24 +44,29 @@ ansible-playbook -i inventory_for_vmware.yaml -e "@vars_for_vmware.yaml" -e "vm_
 ```bash
 ansible-playbook -i inventory_for_vmware.yaml -e "@vars_for_vmware.yaml" -e "template_name=<name of template>" -e "vm_name=<name of machine>" -e "vm_hostname=<hostname of VM>" vmware-deploy/main.yaml
 ```
+
 ##### example: template_name=ubuntu22-template
 
 ![vmware deploy temp](images/vmware-deploy-temp.png)
 
 ##### example: vm_name=ubuntu22-testdeployed
+
 ![vmware deploy task](images/vmware-deploy-task.png)
 
 ##### example: vm_hostname=deployedbyansible
+
 ![vmware deploy hostname](images/vmware-deploy-hostname.png)
 
 #### patching
+
 ```bash
 ansible-playbook -i inventory_for_linux.yaml -l patching patching/main.yaml
 ```
 
 ##### patching flow for updating all packages without restricted packages:
+
 ![patching_hold](images/patching_hold.png)
 
-
 ##### patching flow for exiting when met restricted packages:
+
 ![patching_end](images/patching_end.png)
