@@ -69,4 +69,4 @@ ansible-playbook -i inventory_for_linux.yaml -l patching patching/main.yaml
 
 ##### patching flow for exiting when met restricted packages:
 
-![patching_end](images/patching_end.png)
+![patching_end](images/patching_flow_end.drawio.png)
